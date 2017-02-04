@@ -1,0 +1,50 @@
+FROM buildpack-deps:jessie
+
+# Pre-setup some Golang
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && \
+    chmod -R 777 "$GOPATH"
+
+# Pre-setup some Nginx
+RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 && \
+    echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list
+
+# Update and install some tools useful for debugging in production
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        procps \
+        sysstat \
+        htop \
+        net-tools \
+        dnsutils \
+        tcpdump \
+        python-pip \
+        python-dev \
+        python-openssl \
+        && \
+    apt-get autoremove -y && \
+    apt-get autoclean && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install awscli
+
+# Install nvm
+ENV NVM_VERSION 0.33.0
+ENV NVM_DIR /usr/local/nvm
+RUN curl -o- "https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.sh" | NVM_DIR=$NVM_DIR bash
+
+# Copy install scripts to root
+COPY *.sh /
+
+# Automatically update packages in child images
+ONBUILD RUN \
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get autoremove -y && \
+    apt-get autoclean && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --upgrade awscli
