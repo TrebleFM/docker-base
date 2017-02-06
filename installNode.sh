@@ -1,8 +1,8 @@
 #!/bin/bash -l
 
 if [ ! -f ".nvmrc" ] && [ -z "$NODE_VERSION" ]; then
-  echo "NODE_VERSION is undefined"
-  exit 1
+    echo "NODE_VERSION is undefined"
+    exit 1
 fi
 
 nvm install $NODE_VERSION
