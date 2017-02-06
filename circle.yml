@@ -7,6 +7,10 @@ dependencies:
     - docker info
     - docker build --rm=false -t treblefm/base .
 
+test:
+  override:
+    - true
+
 deployment:
   hub:
     branch: master
