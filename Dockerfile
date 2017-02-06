@@ -15,7 +15,12 @@ RUN mkdir -p /usr/src/app && \
     chmod -R 777 /usr/src/app
 
 # Update and install some tools useful for debugging in production
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
+    apt-get install -y \
+        apt-utils \
+        && \
+    dpkg --configure -a && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
         build-essential \
