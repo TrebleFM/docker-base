@@ -5,7 +5,7 @@ machine:
 dependencies:
   override:
     - docker info
-    - docker build --rm=false -t treblefm/base .
+    - docker build --pull --rm=false -t treblefm/base .
 
 test:
   override:
