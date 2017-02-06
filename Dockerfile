@@ -35,10 +35,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     pip install awscli
 
-# Install nvm
+# Install nvm and set default shell as a bash login shell
 ENV NVM_VERSION 0.33.0
 ENV NVM_DIR /usr/local/nvm
 RUN curl -o- "https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.sh" | NVM_DIR=$NVM_DIR bash
+SHELL ["/bin/bash", "-lc"]
 
 # Copy install scripts to root
 COPY *.sh /

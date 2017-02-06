@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -l
 
 if [ ! -f ".nvmrc" ] && [ -z "$NODE_VERSION" ]; then
   echo "NODE_VERSION is undefined"
