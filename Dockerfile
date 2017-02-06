@@ -10,6 +10,10 @@ RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && \
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 && \
     echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list
 
+# Pre-setup some Node
+RUN mkdir -p /usr/src/app && \
+    chmod -R 777 /usr/src/app
+
 # Update and install some tools useful for debugging in production
 RUN apt-get update && \
     apt-get upgrade -y && \
