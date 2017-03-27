@@ -6,10 +6,8 @@ if [ "$RACK" != "" ] && [ "$EC2_HOSTNAME" = "" ]; then
     export EC2_HOSTNAME=$(curl -s http://169.254.169.254/latest/meta-data/local-hostname)
 fi
 
-if [ "$PPID" = "0" ]; then
-    # Use bash login shell for Docker RUN/CMD/ENTRYPOINT
-    exec "/bin/bash" "-l" "$@"
-else
-    # Use dash for everything else
-    exec "/bin/dash" "$@"
-fi
+# Load NVM
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+# Use dash for everything else
+exec "/bin/dash" "$@"

@@ -46,14 +46,11 @@ ENV NVM_DIR /usr/local/nvm
 RUN curl -o- "https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.sh" | NVM_DIR=$NVM_DIR bash
 
 # Copy install scripts to root
-COPY *.sh /
+COPY install*.sh /
 
-# HACK - sh is now a login shell
+# HACK - Load extra env vars
 RUN rm -f /bin/sh
 COPY sh.sh /bin/sh
-
-# TODO - Use this instead of the above hack. CircleCI is stuck on Docker 1.9 because reasons, this requires 1.12+
-# SHELL ["/bin/bash", "-lc"]
 
 # Automatically update packages in child images
 ONBUILD RUN \
