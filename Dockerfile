@@ -8,7 +8,7 @@ RUN apt-get update && \
         && \
     dpkg --configure -a && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
         build-essential \
         procps \
         sysstat \
@@ -17,10 +17,8 @@ RUN apt-get update && \
         dnsutils \
         tcpdump \
         python-pip \
-        python-dev \
         python-openssl \
         gnupg \
-        dirmngr \
         && \
     apt-get autoremove -y && \
     apt-get autoclean && \
