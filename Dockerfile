@@ -1,8 +1,8 @@
 FROM buildpack-deps:stretch
 
 # Update and install some tools useful for debugging in production
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && \
+RUN DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
     apt-get install -y \
         apt-utils \
         && \
@@ -54,6 +54,7 @@ COPY sh.sh /bin/sh
 
 # Automatically update packages in child images
 ONBUILD RUN \
+    DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get autoremove -y && \
