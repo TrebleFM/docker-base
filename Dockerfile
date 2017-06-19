@@ -1,18 +1,4 @@
-FROM buildpack-deps:jessie
-
-# Pre-setup some Golang
-ENV GOPATH /go
-ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
-RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && \
-    chmod -R 777 "$GOPATH"
-
-# Pre-setup some Nginx
-RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 && \
-    echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list
-
-# Pre-setup some Node
-RUN mkdir -p /usr/src/app && \
-    chmod -R 777 /usr/src/app
+FROM buildpack-deps:stretch
 
 # Update and install some tools useful for debugging in production
 ENV DEBIAN_FRONTEND noninteractive
@@ -33,12 +19,28 @@ RUN apt-get update && \
         python-pip \
         python-dev \
         python-openssl \
+        gnupg \
+        dirmngr \
         && \
     apt-get autoremove -y && \
     apt-get autoclean && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     pip install awscli
+
+# Pre-setup some Golang
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && \
+    chmod -R 777 "$GOPATH"
+
+# Pre-setup some Nginx
+RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 && \
+    echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list
+
+# Pre-setup some Node
+RUN mkdir -p /usr/src/app && \
+    chmod -R 777 /usr/src/app
 
 # Install nvm
 ENV NVM_VERSION 0.33.2
