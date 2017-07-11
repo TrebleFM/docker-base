@@ -1,6 +1,9 @@
 version: 2
 jobs:
   build:
+    branches:
+      only:
+        - master
     docker:
       - image: docker:latest
     working_directory: ~/base
@@ -10,24 +13,5 @@ jobs:
       - run: |
           docker info
           docker build --pull --rm=false -t treblefm/base .
-
-  deploy:
-    docker:
-      - image: docker:latest
-    working_directory: ~/base
-    steps:
-      - run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
           docker push treblefm/base
-
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
