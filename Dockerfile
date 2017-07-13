@@ -6,8 +6,8 @@ COPY extra.bashrc /tmp
 RUN cat /tmp/extra.bashrc | tee -a /root/.bashrc
 
 # Update and install some tools useful for debugging in production
-RUN DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && \
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
     apt-get install -y \
         apt-utils \
         && \
@@ -54,8 +54,8 @@ RUN curl -o- "https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/ins
 COPY install*.sh /
 
 # Automatically update packages in child images
+ONBUILD ARG DEBIAN_FRONTEND=noninteractive
 ONBUILD RUN \
-    DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get autoremove -y && \
