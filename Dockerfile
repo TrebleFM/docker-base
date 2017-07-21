@@ -1,9 +1,9 @@
 FROM buildpack-deps:stretch
 
 # Setup .bashrc
-SHELL ["/bin/bash", "-lc"]
-COPY extra.bashrc /tmp
-RUN cat /tmp/extra.bashrc | tee -a /root/.bashrc
+# SHELL ["/bin/bash", "-lc"]
+# COPY extra.bashrc /tmp
+# RUN cat /tmp/extra.bashrc | tee -a /root/.bashrc
 
 # Update and install some tools useful for debugging in production
 ARG DEBIAN_FRONTEND=noninteractive
@@ -52,6 +52,10 @@ RUN curl -o- "https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/ins
 
 # Copy install scripts to root
 COPY install*.sh /
+
+# HACK - Load extra env vars
+RUN rm -f /bin/sh
+COPY sh.sh /bin/sh
 
 # Automatically update packages in child images
 ONBUILD ARG DEBIAN_FRONTEND=noninteractive
