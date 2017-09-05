@@ -10,5 +10,7 @@ nvm use $NODE_VERSION
 nvm alias default `nvm current`
 nvm cache clear
 
-npm -g install npm
-npm -g upgrade
+# TODO - npm@5.4.0 is broken, uncomment this once fixed
+# https://github.com/npm/npm/issues/18324
+# npm -g install npm
+# npm -g upgrade

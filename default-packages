@@ -1,0 +1,5 @@
+# NVM default packages
+
+# TODO - npm@5.4.0 is broken, remove this once fixed
+# https://github.com/npm/npm/issues/18324
+npm@5.3
