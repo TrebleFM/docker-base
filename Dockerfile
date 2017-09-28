@@ -24,6 +24,9 @@ RUN apt-get update && \
         python-pip \
         python-openssl \
         gnupg \
+        # These need `--cap-add SYS_PTRACE`, and maybe `--security-opt seccomp:unconfined`
+        strace \
+        ltrace \
         && \
     apt-get autoremove -y && \
     apt-get autoclean && \
