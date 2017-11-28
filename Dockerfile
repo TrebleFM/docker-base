@@ -24,6 +24,7 @@ RUN apt-get update && \
         python-pip \
         python-openssl \
         gnupg \
+        rsync \
         # These need `--cap-add SYS_PTRACE`, and maybe `--security-opt seccomp:unconfined`
         strace \
         ltrace \
