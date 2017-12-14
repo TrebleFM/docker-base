@@ -50,7 +50,7 @@ RUN mkdir -p /usr/src/app && \
     chmod -R 777 /usr/src/app
 
 # Install nvm
-ENV NVM_VERSION 0.33.6
+ENV NVM_VERSION 0.33.8
 ENV NVM_DIR /usr/local/nvm
 RUN curl -o- "https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.sh" | NVM_DIR=$NVM_DIR bash
 COPY default-packages $NVM_DIR
