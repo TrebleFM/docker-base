@@ -42,7 +42,7 @@ RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && \
     chmod -R 777 "$GOPATH"
 
 # Pre-setup some Nginx
-RUN set -x \
+RUN set -x && \
 	NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
 	NGINX_GPGFOUND=''; \
 	for server in \
@@ -54,7 +54,7 @@ RUN set -x \
 		echo "Fetching GPG key $NGINX_GPGKEY from $server"; \
 		apt-key adv --keyserver "$server" --recv-keys "$NGINX_GPGKEY" && NGINX_GPGFOUND=yes && break; \
 	done; \
-	test -z "$NGINX_GPGFOUND" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; && \
+	test -z "$NGINX_GPGFOUND" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
     echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list
 
 # Pre-setup some Node
