@@ -14,8 +14,9 @@ jobs:
           docker info
           docker build --pull --rm=false -t treblefm/base .
 
-          docker build --pull --rm=false -t test tests/nvm
+          docker build -t test tests/nvm
           docker run --rm -it test
+          docker rmi test
 
           docker login -u $DOCKER_USER -p $DOCKER_PASS
           docker push treblefm/base
