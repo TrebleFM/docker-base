@@ -42,7 +42,19 @@ RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && \
     chmod -R 777 "$GOPATH"
 
 # Pre-setup some Nginx
-RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 && \
+RUN set -x \
+	NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
+	NGINX_GPGFOUND=''; \
+	for server in \
+		ha.pool.sks-keyservers.net \
+		hkp://keyserver.ubuntu.com:80 \
+		hkp://p80.pool.sks-keyservers.net:80 \
+		pgp.mit.edu \
+	; do \
+		echo "Fetching GPG key $NGINX_GPGKEY from $server"; \
+		apt-key adv --keyserver "$server" --recv-keys "$NGINX_GPGKEY" && NGINX_GPGFOUND=yes && break; \
+	done; \
+	test -z "$NGINX_GPGFOUND" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; && \
     echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list
 
 # Pre-setup some Node
