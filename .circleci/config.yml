@@ -15,3 +15,17 @@ jobs:
           docker build --pull --rm=false -t treblefm/base .
           docker login -u $DOCKER_USER -p $DOCKER_PASS
           docker push treblefm/base
+
+  test:
+    branches:
+      only:
+        - master
+    docker:
+      - image: docker:latest
+    working_directory: ~/base
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: |
+          docker build --pull --rm=false -t test tests/nvm
+          docker run --rm -it test

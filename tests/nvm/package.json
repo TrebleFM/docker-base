@@ -1,0 +1,9 @@
+{
+  "name": "nvm-test",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "./test.sh",
+    "start": "node ./test.js"
+  }
+}
